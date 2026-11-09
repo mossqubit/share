@@ -13,7 +13,7 @@ node scripts/install.mjs --target "/你的路径/面板项目" --check
 node scripts/install.mjs --target "/你的路径/面板项目"
 ```
 
-安装器会检查兼容性、新增四个功能文件，并修改 `components/mission-control.tsx`，保留原同步序列。不同结构或同名冲突会停止，避免覆盖现有代码。原文件保存在目标项目 `.account-performance-backup.json`，请保留，勿将该备份提交到公开仓库。原面板源码基线：`mossqubit/adengine-inf` 提交 `fbd5269265ca5a6aa5feae3a2bbaf24eee1a3a6b`；安装器检查结构，另一台的版本如有差异，先运行 `--check`。
+安装器会检查兼容性、新增四个功能文件，并修改 `components/mission-control.tsx`，保留原同步序列。不同结构或同名冲突会停止，避免覆盖现有代码。原文件保存在目标项目 `.account-performance-backup.json`，请保留，勿将该备份提交到公开仓库。安装器检查现有面板结构；另一台的版本如有差异，先运行 `--check`。
 
 然后回到原面板目录，按原来方式启动。开发环境通常运行 `npm run dev`；运行构建版本则先 `npm run build` 再 `npm start`。如果原面板使用其他启动脚本，继续使用其原有流程。**仅在已有面板环境安装，不要在本功能包目录运行 npm install 或 npm run dev。** 原面板需要的 Node、Cloudflare 本地运行环境、缓存、密钥等由原项目提供；Git 不传输这些配置或数据。
 
@@ -22,23 +22,23 @@ node scripts/install.mjs --target "/你的路径/面板项目"
 ## 功能和统计口径
 
 - 新视图移除原卡片中的剩余额度、更新时间、等待启动文字。原同步流程和侧栏状态保持工作。
-- 六个账户卡片：花费、单量、ROI、相对涨跌幅。支持今天 / 指定日期、开始 / 结束整点、全部 / 单账户筛选。
+- 从面板现有账户列表生成卡片：花费、单量、ROI、相对涨跌幅。支持今天 / 指定日期、开始 / 结束整点、全部 / 单账户筛选。公开功能包不包含真实账户编号或内部缓存路径。
 - 对比方式：上一时段为当前时段之前紧邻的等长时段，可跨日；昨日同时段为前一日相同时段。每张卡片列出实际起止范围和基期数值。
 - Google / SHOPLINE 沿用原报表的 `America/Los_Angeles` 时区和归因订单口径，单量使用现有 `units`。ROI = 归因销售额 / 花费（与面板原 ROAS 一致，并非利润率）。不按 Mac 或 Windows 系统时区计算。
 - 今天只统计已结束的完整报表小时，自动裁剪结束时间，再用同样长度做对比；当前正在进行的小时不计入。跨夏令时按原报表的日期与小时槽统计，不能区分重复的同名小时。
 - AppLovin 接入原有 UTC 日报，单量为 D0 购买数，ROI = D0 收入 / 花费；不混为 SHOPLINE 归因订单。今天显示已保存的当日累计，因没有对应等长小时数据，不显示涨跌；历史日期支持整日对比。选择非整日时提示不支持，不伪造小时数据。
 - 基期为零、零花费、无历史数据、无小时明细、旧缓存未覆盖当前时段时，不显示虚假的涨跌或无穷大；缺失用 `—` 和原因说明。两期均为零时涨跌为 0.0%。
-- 接口只读现有 R2 缓存，不额外请求广告平台、不修改账户操作。页面打开时、筛选变更时、同步完成后以及每 60 秒重新读取缓存；数据实际更新仍使用原有“启动同步”。原报表可能有平台延迟或后续归因修订。
+- 复用原面板已有报表 GET 接口读取缓存，不新增后端路由、不额外请求广告平台、不修改账户操作。页面打开时、筛选变更时、同步完成后以及每 60 秒重新读取缓存；数据实际更新仍使用原有“启动同步”。原报表可能有平台延迟或后续归因修订。每次读取按账户分别调用已有接口，较新增汇总接口传输数据量更大。
 
 ## 文件
 
 安装后新增：
 
 ```text
-app/api/account-performance/route.ts
 components/account-performance.tsx
 components/account-performance.module.css
 lib/account-performance.ts
+lib/account-performance-loader.ts
 ```
 
 `scripts/install.mjs` 只添加本地开关包装，原 `MissionSequence` 改名为 `LegacyMissionSequence` 后保留。若安装器提示结构不兼容，应由开发者按此逻辑手动合并，不要整份覆盖另一台电脑的页面。后续 `git pull` 只更新功能包，再次安装不会强行覆盖已改动文件。
