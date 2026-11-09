@@ -1,0 +1,18 @@
+#account-performance-preview{width:100%;min-width:0;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;color:#b9d0e1;color-scheme:dark}
+#account-performance-preview *{box-sizing:border-box}
+#account-performance-preview .ap-preview-product{background:#080f16;padding:22px;border-radius:10px;min-width:0}
+#account-performance-preview .ap-preview-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:0 0 18px;border-bottom:1px solid #233949}
+#account-performance-preview .ap-preview-top>div{display:flex;align-items:center;gap:14px}
+#account-performance-preview .ap-preview-brand{font-size:22px;font-weight:500;letter-spacing:-.7px;color:#edfaff}
+#account-performance-preview .ap-preview-label{font-size:12px;color:#8eb3cb;border-left:1px solid #2b5069;padding-left:14px}
+#account-performance-preview .ap-preview-badge{font-size:11px;padding:5px 9px;border:1px solid #396c68;border-radius:5px;color:#79d9cc;background:#102a2a}
+#account-performance-preview .ap-preview-controls{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin-top:18px}
+#account-performance-preview .ap-preview-controls label{display:grid;gap:6px;font-size:12px;color:#aac7da}
+#account-performance-preview .ap-preview-controls select{border:1px solid #365c76;background:#0b1b27;color:#e6f6ff;border-radius:5px;padding:9px 12px;font:inherit;min-height:40px}
+#account-performance-preview .ap-preview-controls>span{font-size:11px;color:#8aaac3;line-height:1.6;padding-bottom:9px}
+#account-performance-preview .ap-preview-off{margin-top:20px;padding:28px 20px;border:1px solid #294657;border-radius:8px;background:#0a1721}
+#account-performance-preview .ap-preview-off h2{margin:0;font-size:20px;font-weight:500;color:#e4f6ff}
+#account-performance-preview .ap-preview-off p{font-size:12px;color:#8eafc7;margin:12px 0 20px}
+#account-performance-preview .ap-preview-off button{padding:10px 16px;border:1px solid #4cbcae;background:#102c2a;color:#6aefdc;border-radius:5px;font:inherit;cursor:pointer}
+#account-performance-preview button:focus-visible,#account-performance-preview select:focus-visible{outline:2px solid #5eead4;outline-offset:3px}
+@media(max-width:640px){#account-performance-preview .ap-preview-product{padding:14px 10px}#account-performance-preview .ap-preview-brand{font-size:19px}#account-performance-preview .ap-preview-controls>span{font-size:11px}}
